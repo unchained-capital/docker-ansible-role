@@ -1,0 +1,9 @@
+---
+
+- name: Ensure Docker root directory is configured
+  template: src="templates/docker.j2" path="{{ docker_config_path }}" owner=root group=root mode="0644"
+  tags: [docker, config]
+
+- name: Ensure Docker is installed
+  apt: name="{{ docker_package }}" state=present
+  tags: [docker, apt]

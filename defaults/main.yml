@@ -1,0 +1,8 @@
+---
+
+docker_package:     docker
+docker_config_path: /etc/default/docker
+
+
+docker_root_dir: /mnt
+docker_options:  "-g {{ docker_root_dir }}"
