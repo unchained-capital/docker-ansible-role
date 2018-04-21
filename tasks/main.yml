@@ -1,9 +1,26 @@
 ---
 
 - name: Ensure Docker root directory is configured
-  template: src="templates/docker.j2" path="{{ docker_config_path }}" owner=root group=root mode="0644"
+  template: src="templates/docker.j2" dest="{{ docker_config_path }}" owner=root group=root mode="0644"
   tags: [docker, config]
+
+- name: Ensure Docker repository is installed
+  apt_repository: repo="{{ docker_package_repository }}" state=present
+  tags: [docker, apt]
 
 - name: Ensure Docker is installed
   apt: name="{{ docker_package }}" state=present
   tags: [docker, apt]
+
+- name: Ensure Docker compose is installed
+  get_url: url="{{ docker_compose_url }}" dest="{{ docker_compose_bin_path }}" mode=0755
+  tags: [docker, docker-compose]
+
+- name: Ensure selected users are in 'docker' group
+  with_items: "{{ docker_users }}"
+  user:
+    name: "{{ item }}"
+    groups: "{{ docker_group }}"
+    append: yes  
+  
+  

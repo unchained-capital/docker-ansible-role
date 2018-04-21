@@ -12,8 +12,7 @@ Use the role in a playbook like this:
 ```yaml
 - hosts: all
   roles:
-    - name: docker
+    - role: docker
 	  docker_root_dir: /somewhere/for/docker
 
 ```
-
